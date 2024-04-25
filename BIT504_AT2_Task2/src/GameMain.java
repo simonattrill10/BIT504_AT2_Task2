@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+//import GameMain.GameState;
+
 
 
 public class GameMain extends JPanel implements MouseListener{
@@ -28,6 +30,15 @@ public class GameMain extends JPanel implements MouseListener{
 	 	 
 	//TODO: create the enumeration for the variable below (GameState currentState)
 	//HINT all of the states you require are shown in the code within GameMain
+	//Done
+	
+	private enum GameState{
+		Playing,
+		Draw,
+		Cross_won,
+		Nought_won
+	}
+	
 	private GameState currentState; 
 	
 	// the current player
@@ -40,7 +51,7 @@ public class GameMain extends JPanel implements MouseListener{
 	public GameMain() {   
 		
 		// TODO: This JPanel fires a MouseEvent on MouseClicked so add required event listener to 'this'.          
-	    
+		addMouseListener(this);
 	    
 		// Setup the status bar (JLabel) to display status message       
 		statusBar = new JLabel("         ");       
@@ -57,11 +68,11 @@ public class GameMain extends JPanel implements MouseListener{
 		
 		
 		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name
-
+		board = new Board();
 		
 		//TODO: call the method to initialise the game board
-
-	}
+		initGame();
+		}
 	
 	public static void main(String[] args) {
 		    // Run GUI code in Event Dispatch thread for thread safety.
@@ -71,12 +82,14 @@ public class GameMain extends JPanel implements MouseListener{
 				JFrame frame = new JFrame(TITLE);
 				
 				//TODO: create the new GameMain panel and add it to the frame
-						
+				JPanel gameMain = new GameMain();
+				frame.add(gameMain);
 				
 				
 				//TODO: set the default close operation of the frame to exit_on_close
-		            
+		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
 				
+		        
 				frame.pack();             
 				frame.setLocationRelativeTo(null);
 				frame.setVisible(true);
@@ -95,12 +108,14 @@ public class GameMain extends JPanel implements MouseListener{
 		if (currentState == GameState.Playing) {          
 			statusBar.setForeground(Color.BLACK);          
 			if (currentPlayer == Player.Cross) {   
-			
+				statusBar.setForeground(Color.red);
+				statusBar.setText("X's Turn");
 				//TODO: use the status bar to display the message "X"'s Turn
-
 				
-			} else {    
 				
+			} else if (currentPlayer == Player.Nought){    
+				statusBar.setForeground(Color.red);
+				statusBar.setText("O's Turn");
 				//TODO: use the status bar to display the message "O"'s Turn
 
 				
