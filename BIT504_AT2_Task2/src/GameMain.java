@@ -6,6 +6,7 @@ import javax.swing.*;
 
 
 
+
 public class GameMain extends JPanel implements MouseListener{
 	//Constants for game 
 	// number of ROWS by COLS cell constants 
@@ -154,12 +155,19 @@ public class GameMain extends JPanel implements MouseListener{
 		public void updateGame(Player thePlayer, int row, int col) {
 			//check for win after play
 			if(board.hasWon(thePlayer, row, col)) {
+				if (thePlayer == Player.Cross) {
+					currentState = GameState.Cross_won;
+				}
+				else {
+					currentState = GameState.Nought_won;
+				}
 				
 				// TODO: check which player has won and update the currentstate to the appropriate gamestate for the winner
 
 				
 			} else 
-				if (board.isDraw ()) {
+				if (board.isDraw (thePlayer, row, col)) {
+					currentState = GameState.Draw;
 					
 				// TODO: set the currentstate to the draw gamestate
 
@@ -200,7 +208,7 @@ public class GameMain extends JPanel implements MouseListener{
 		}   
 		
 		//TODO: redraw the graphics on the UI          
-           
+		paintComponent(this.getGraphics());
 	}
 		
 	
